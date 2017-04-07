@@ -20,7 +20,7 @@ const getCurrentDate = () => {
 
 class App extends Component {
   state = {
-    city: '',
+    city: null,
     unit: 'C',
     forecast: {},
     date: getCurrentDate(),
@@ -28,10 +28,11 @@ class App extends Component {
   handleChange = event => {
     const { name, value } = event.target;
     this.setState({ [name]: value });
+    if (name === 'city' && value) {
+      this.fetchWeather(value);
+    }
   };
-  handleSubmit = event => {
-    event.preventDefault();
-    const { city } = this.state;
+  fetchWeather = city => {
     axios
       // units : 'metric' stands for ℃
       .get(url, { params: { q: city, units: 'metric', appid } })
@@ -76,12 +77,13 @@ class App extends Component {
     const days = Object.keys(forecast);
     return (
       <div>
-        <WeatherDisplay weather={forecast[days[0]]} unit={unit} city={city} />
-        <WeatherTable forecast={forecast} unit={unit} date={date} />
         <WeatherForm
+          selectedCity={city}
           onChange={this.handleChange}
           onSubmit={this.handleSubmit}
         />
+        <WeatherDisplay weather={forecast[days[0]]} unit={unit} city={city} />
+        <WeatherTable forecast={forecast} unit={unit} date={date} />
       </div>
     );
   }
