@@ -1,4 +1,5 @@
 import React from 'react';
+import taiwanCities from './taiwanCities.json';
 import {
   Button,
   Container,
@@ -14,7 +15,17 @@ const WeatherForm = ({ onChange, onSubmit }) => (
     <Col sm="12" md={{ size: 8, offset: 2 }}>
       <Form inline onSubmit={onSubmit}>
         <FormGroup>
-          <Input name="city" id="city" placeholder="City" onChange={onChange} />
+          <Input
+            type="select"
+            name="city"
+            id="city"
+            placeholder="City"
+            onChange={onChange}
+          >
+            {Object.keys(taiwanCities).map((city, key) => (
+              <option key={key} value={city}>{taiwanCities[city]}</option>
+            ))}
+          </Input>
         </FormGroup>
         <FormGroup>
           <Input type="select" name="unit" id="unit" onChange={onChange}>
