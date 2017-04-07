@@ -12,22 +12,22 @@ const unitsFormat = {
 };
 
 const getCurrentDate = () => {
-  const dateObject = new Date()
+  const dateObject = new Date();
   const year = dateObject.getFullYear();
-  const month = dateObject.getMonth()+1;
+  const month = dateObject.getMonth() + 1;
   const monthString = month.length > 1 ? month : `0${month}`;
   const date = dateObject.getDate();
   const dateString = date.length > 1 ? date : `0${date}`;
- 
-  return `${year}-${monthString}-${dateString}` 
-}
+
+  return `${year}-${monthString}-${dateString}`;
+};
 
 class App extends Component {
   state = {
     city: '',
     unit: 'C',
     forecast: {},
-    date: getCurrentDate()
+    date: getCurrentDate(),
   };
   handleChange = event => {
     const { name, value } = event.target;
@@ -40,8 +40,7 @@ class App extends Component {
       // units : 'metric' stands for ℃
       .get(url, { params: { q: city, units: 'metric', appid } })
       .then(({ data }) => {
-     
-    const forecast = {};
+        const forecast = {};
         data.list.forEach(d => {
           const day = d.dt_txt.split(' ')[0];
           const time = d.dt_txt.split(' ')[1];
@@ -64,9 +63,12 @@ class App extends Component {
           }
           forecast[day].weatherCount[weather.id]++;
           if (
-            forecast[day].maxWeatherCount < forecast[day].weatherCount[weather.id]
+            forecast[day].maxWeatherCount <
+            forecast[day].weatherCount[weather.id]
           ) {
-            forecast[day].maxWeatherCount = forecast[day].weatherCount[weather.id];
+            forecast[day].maxWeatherCount = forecast[day].weatherCount[
+              weather.id
+            ];
             forecast[day].maxWeather = weather;
           }
         });
@@ -76,7 +78,7 @@ class App extends Component {
   render() {
     const { unit, forecast, city, date } = this.state;
     const days = Object.keys(forecast);
-    console.log(unit)
+    console.log(unit);
     return (
       <div>
         <WeatherDisplay weather={forecast[days[0]]} unit={unit} city={city} />

@@ -4,20 +4,18 @@ import { Container, Row, Col } from 'reactstrap';
 const WeatherTable = ({ forecast, unit, date }) => (
   <Container>
     <Row>
-      {
-        forecast[date] ? 
-          Object.keys(forecast[date].temps).map(
-            (time, key) => <Col key={time}>
+      {forecast[date]
+        ? Object.keys(forecast[date].temps).map((time, key) => (
+            <Col key={time}>
               <div>{time}</div>
               <div>
-                {
-                  unit === 'C' ? `${forecast[date].temps[time]}°${unit}`
-                    : `${(forecast[date].temps[time] * (9/5) + 32).toFixed(1)}°${unit}`
-                }
+                {unit === 'C'
+                  ? `${forecast[date].temps[time]}°${unit}`
+                  : `${(forecast[date].temps[time] * (9 / 5) + 32).toFixed(1)}°${unit}`}
               </div>
-            </Col> 
-          ) : null
-      }
+            </Col>
+          ))
+        : null}
     </Row>
     {Object.keys(forecast).map(day => (
       <Row key={day}>
@@ -25,10 +23,10 @@ const WeatherTable = ({ forecast, unit, date }) => (
           <div>{day}</div>
         </Col>
         <Col sm="4">
-          <div>{ 
-                unit === 'C' ? `${(forecast[day].sum / forecast[day].count).toFixed(1)}°${unit}`
-                  : `${((forecast[day].sum / forecast[day].count) * (9/5) + 32).toFixed(1)}°${unit}`
-               }
+          <div>
+            {unit === 'C'
+              ? `${(forecast[day].sum / forecast[day].count).toFixed(1)}°${unit}`
+              : `${(forecast[day].sum / forecast[day].count * (9 / 5) + 32).toFixed(1)}°${unit}`}
           </div>
         </Col>
         <Col sm="4">
