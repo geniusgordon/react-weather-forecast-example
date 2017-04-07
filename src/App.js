@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import WeatherDisplay from './WeatherDisplay';
+import WeatherTable from './WeatherTable';
 import WeatherForm from './WeatherForm';
 
 const url = 'http://api.openweathermap.org/data/2.5/forecast';
@@ -61,6 +62,7 @@ class App extends Component {
     return (
       <div>
         <WeatherDisplay weather={forecast[days[0]]} unit={unit} />
+        <WeatherTable forecast={forecast} unit={unit} />
         <WeatherForm
           onChange={this.handleChange}
           onSubmit={this.handleSubmit}
