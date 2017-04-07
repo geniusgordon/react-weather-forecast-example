@@ -5,8 +5,8 @@ import { getTemperature } from './utils';
 const Row = styled.div`
   display: flex;
   padding: 8px;
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
 `;
 
 const Col = styled.div`
