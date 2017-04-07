@@ -1,25 +1,42 @@
 import React from 'react';
+import styled from 'styled-components';
+import HourlyWeather from './HourlyWeather';
+import { getTemperature } from './utils';
 import taiwanCities from './taiwanCities.json';
-import { Container, Row, Col } from 'reactstrap';
+
+const Summary = styled.div`
+  text-align: center;
+`;
+
+const ChineseName = styled.div`
+  font-size: 24px;
+`;
+
+const EnglishName = styled.div`
+  font-size: 18px;
+`;
+
+const Temperature = styled.div`
+  font-size: 60px;
+`;
 
 const WeatherDisplay = ({ city, weather, unit }) => {
   if (!weather) {
     return null;
   }
+  const average = weather.sum / weather.count;
+  const temperature = getTemperature(average, unit);
   return (
-    <Container>
-      <Col sm="12" md={{ size: 2, offset: 5 }}>
-        <div>{taiwanCities[city]}</div>
-        <div>{city}</div>
-        <div>
-          {unit === 'C'
-            ? `${(weather.sum / weather.count).toFixed(1)}°${unit}`
-            : `${(weather.sum / weather.count * (9 / 5) + 32).toFixed(1)}°${unit}`}
-        </div>
+    <div>
+      <Summary>
+        <ChineseName>{taiwanCities[city]}</ChineseName>
+        <EnglishName>{city}</EnglishName>
+        <Temperature>{Math.round(temperature)}°{unit}</Temperature>
         <div>{weather.maxWeather.description}</div>
-        <i className={`owf owf-${weather.maxWeather.id}`} />
-      </Col>
-    </Container>
+        <i className={`owf owf-5x owf-${weather.maxWeather.id}`} />
+      </Summary>
+      <HourlyWeather weather={weather} unit={unit} />
+    </div>
   );
 };
 

@@ -1,38 +1,17 @@
 import React from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import styled from 'styled-components';
+import ForecastRow from './ForecastRow';
 
-const WeatherTable = ({ forecast, unit, date }) => (
+const Container = styled.div`
+  max-width: 500px;
+  margin: auto;
+  padding: 8px 16px;
+`;
+
+const WeatherTable = ({ forecast, unit }) => (
   <Container>
-    <Row>
-      {forecast[date]
-        ? Object.keys(forecast[date].temps).map((time, key) => (
-            <Col key={time}>
-              <div>{time}</div>
-              <div>
-                {unit === 'C'
-                  ? `${forecast[date].temps[time]}°${unit}`
-                  : `${(forecast[date].temps[time] * (9 / 5) + 32).toFixed(1)}°${unit}`}
-              </div>
-            </Col>
-          ))
-        : null}
-    </Row>
     {Object.keys(forecast).map(day => (
-      <Row key={day}>
-        <Col sm="4">
-          <div>{day}</div>
-        </Col>
-        <Col sm="4">
-          <div>
-            {unit === 'C'
-              ? `${(forecast[day].sum / forecast[day].count).toFixed(1)}°${unit}`
-              : `${(forecast[day].sum / forecast[day].count * (9 / 5) + 32).toFixed(1)}°${unit}`}
-          </div>
-        </Col>
-        <Col sm="4">
-          <i className={`owf owf-${forecast[day].maxWeather.id}`} />
-        </Col>
-      </Row>
+      <ForecastRow key={day} day={day} weather={forecast[day]} unit={unit} />
     ))}
   </Container>
 );

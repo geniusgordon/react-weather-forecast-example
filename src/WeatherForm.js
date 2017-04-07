@@ -1,42 +1,39 @@
 import React from 'react';
+import { Form, FormGroup, Input } from 'reactstrap';
+import styled from 'styled-components';
 import taiwanCities from './taiwanCities.json';
-import {
-  Button,
-  Container,
-  Col,
-  Form,
-  FormGroup,
-  Input,
-  Row,
-} from 'reactstrap';
+
+const FormContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+`;
 
 const WeatherForm = ({ onChange, onSubmit }) => (
-  <Container>
-    <Col sm="12" md={{ size: 8, offset: 2 }}>
-      <Form inline onSubmit={onSubmit}>
-        <FormGroup>
-          <Input
-            type="select"
-            name="city"
-            id="city"
-            placeholder="City"
-            onChange={onChange}
-          >
-            {Object.keys(taiwanCities).map((city, key) => (
-              <option key={key} value={city}>{taiwanCities[city]}</option>
-            ))}
-          </Input>
-        </FormGroup>
-        <FormGroup>
-          <Input type="select" name="unit" id="unit" onChange={onChange}>
-            <option value="C">°C</option>
-            <option value="F">°F</option>
-          </Input>
-        </FormGroup>
-        <Button color="primary">Check</Button>
-      </Form>
-    </Col>
-  </Container>
+  <FormContainer>
+    <Form inline onSubmit={onSubmit}>
+      <FormGroup>
+        <Input
+          id="city"
+          type="select"
+          name="city"
+          defaultValue=""
+          onChange={onChange}
+        >
+          <option value="" disabled>選擇城市</option>
+          {Object.keys(taiwanCities).map(city => (
+            <option key={city} value={city}>{taiwanCities[city]}</option>
+          ))}
+        </Input>
+      </FormGroup>
+      <FormGroup>
+        <Input type="select" name="unit" id="unit" onChange={onChange}>
+          <option value="C">°C</option>
+          <option value="F">°F</option>
+        </Input>
+      </FormGroup>
+    </Form>
+  </FormContainer>
 );
 
 export default WeatherForm;
