@@ -9,7 +9,8 @@
     "react-addons-css-transition-group": "^15.4.2",
     "react-addons-transition-group": "^15.4.2",
     "react-dom": "^15.4.2",
-    "reactstrap": "^4.5.0"
+    "reactstrap": "^4.5.0",
+    "styled-components": "^1.4.4"
   },
   "devDependencies": {
     "prettier": "^0.22.0",
