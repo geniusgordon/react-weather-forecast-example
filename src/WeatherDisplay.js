@@ -1,6 +1,6 @@
 import React from 'react';
 import taiwanCities from './taiwanCities.json';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Col } from 'reactstrap';
 
 const WeatherDisplay = ({ city, weather, unit }) => {
   if (!weather) {

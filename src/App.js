@@ -6,10 +6,6 @@ import WeatherForm from './WeatherForm';
 
 const url = 'http://api.openweathermap.org/data/2.5/forecast';
 const appid = '21f68350c4846bdab4c1d5d9e18a55e0';
-const unitsFormat = {
-  C: 'metric',
-  F: 'imperial',
-};
 
 const getCurrentDate = () => {
   const dateObject = new Date();
@@ -35,7 +31,7 @@ class App extends Component {
   };
   handleSubmit = event => {
     event.preventDefault();
-    const { city, unit } = this.state;
+    const { city } = this.state;
     axios
       // units : 'metric' stands for ℃
       .get(url, { params: { q: city, units: 'metric', appid } })
@@ -78,7 +74,6 @@ class App extends Component {
   render() {
     const { unit, forecast, city, date } = this.state;
     const days = Object.keys(forecast);
-    console.log(unit);
     return (
       <div>
         <WeatherDisplay weather={forecast[days[0]]} unit={unit} city={city} />

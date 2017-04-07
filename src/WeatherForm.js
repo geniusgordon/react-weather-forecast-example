@@ -7,7 +7,6 @@ import {
   Form,
   FormGroup,
   Input,
-  Row,
 } from 'reactstrap';
 
 const WeatherForm = ({ onChange, onSubmit }) => (
