@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import HourlyWeather from './HourlyWeather';
+import { getTemperature } from './utils';
 import taiwanCities from './taiwanCities.json';
 
-const Container = styled.div`
+const Summary = styled.div`
   text-align: center;
 `;
 
@@ -23,15 +25,18 @@ const WeatherDisplay = ({ city, weather, unit }) => {
     return null;
   }
   const average = weather.sum / weather.count;
-  const temperature = unit === 'C' ? average : average * (9 / 5) + 32;
+  const temperature = getTemperature(average, unit);
   return (
-    <Container>
-      <ChineseName>{taiwanCities[city]}</ChineseName>
-      <EnglishName>{city}</EnglishName>
-      <Temperature>{Math.round(temperature)}°{unit}</Temperature>
-      <div>{weather.maxWeather.description}</div>
-      <i className={`owf owf-5x owf-${weather.maxWeather.id}`} />
-    </Container>
+    <div>
+      <Summary>
+        <ChineseName>{taiwanCities[city]}</ChineseName>
+        <EnglishName>{city}</EnglishName>
+        <Temperature>{Math.round(temperature)}°{unit}</Temperature>
+        <div>{weather.maxWeather.description}</div>
+        <i className={`owf owf-5x owf-${weather.maxWeather.id}`} />
+      </Summary>
+      <HourlyWeather weather={weather} unit={unit} />
+    </div>
   );
 };
 

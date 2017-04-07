@@ -6,6 +6,7 @@ import taiwanCities from './taiwanCities.json';
 const FormContainer = styled.div`
   display: flex;
   justify-content: center;
+  padding: 16px;
 `;
 
 const WeatherForm = ({ onChange, onSubmit }) => (
