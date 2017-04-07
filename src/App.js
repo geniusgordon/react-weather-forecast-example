@@ -11,11 +11,23 @@ const unitsFormat = {
   F: 'imperial',
 };
 
+const getCurrentDate = () => {
+  const dateObject = new Date()
+  const year = dateObject.getFullYear();
+  const month = dateObject.getMonth()+1;
+  const monthString = month.length > 1 ? month : `0${month}`;
+  const date = dateObject.getDate();
+  const dateString = date.length > 1 ? date : `0${date}`;
+ 
+  return `${year}-${monthString}-${dateString}` 
+}
+
 class App extends Component {
   state = {
     city: '',
     unit: 'C',
     forecast: {},
+    date: getCurrentDate()
   };
   handleChange = event => {
     const { name, value } = event.target;
@@ -25,14 +37,18 @@ class App extends Component {
     event.preventDefault();
     const { city, unit } = this.state;
     axios
-      .get(url, { params: { q: city, units: unitsFormat[unit], appid } })
+      // units : 'metric' stands for ℃
+      .get(url, { params: { q: city, units: 'metric', appid } })
       .then(({ data }) => {
-        const forecast = {};
+     
+    const forecast = {};
         data.list.forEach(d => {
           const day = d.dt_txt.split(' ')[0];
+          const time = d.dt_txt.split(' ')[1];
           const weather = d.weather[0];
           if (!forecast[day]) {
             forecast[day] = {
+              temps: {},
               sum: 0,
               count: 0,
               weatherCount: {},
@@ -40,6 +56,7 @@ class App extends Component {
               maxWeather: null,
             };
           }
+          forecast[day].temps[time] = d.main.temp;
           forecast[day].sum += d.main.temp;
           forecast[day].count++;
           if (!forecast[day].weatherCount[weather.id]) {
@@ -57,12 +74,13 @@ class App extends Component {
       });
   };
   render() {
-    const { unit, forecast } = this.state;
+    const { unit, forecast, city, date } = this.state;
     const days = Object.keys(forecast);
+    console.log(unit)
     return (
       <div>
-        <WeatherDisplay weather={forecast[days[0]]} unit={unit} />
-        <WeatherTable forecast={forecast} unit={unit} />
+        <WeatherDisplay weather={forecast[days[0]]} unit={unit} city={city} />
+        <WeatherTable forecast={forecast} unit={unit} date={date} />
         <WeatherForm
           onChange={this.handleChange}
           onSubmit={this.handleSubmit}
